@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pair with Me</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* Dark Mode Styling */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #0A192F;
+      /* Dark Navy Blue */
+      font-family: Arial, sans-serif;
+      color: #E6F1FF;
+      /* Light Blue Text */
+    }
+
+    /* Centered Container */
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Form Box */
+    .box {
+      width: 320px;
+      padding: 20px;
+      text-align: center;
+      background-color: #112240;
+      /* Deep Blue */
+      border-radius: 10px;
+      box-shadow: 0px 0px 5px #00d4ff;
+    }
+
+    /* Titles & Text */
+    .title {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .instructions {
+      color: #A8B2D1;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    /* Input & Button Container */
+    .input-container {
+      display: flex;
+      background: #1B2C50;
+      border-radius: 8px;
+      padding: 5px;
+      width: 100%;
+      max-width: 300px;
+      box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
+    }
+
+    /* Input Field */
+    .input-container input {
+      flex: 3;
+      padding: 10px;
+      border: none;
+      border-radius: 6px 0 0 6px;
+      background: #0A192F;
+      color: #E6F1FF;
+      font-size: 14px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .input-container input::placeholder {
+      color: #A8B2D1;
+      /* Soft blue-gray */
+      opacity: 0.8;
+      /* Slightly faded for a subtle effect */
+      transition: 0.3s ease-in-out;
+    }
+
+    .input-container input:focus::placeholder {
+      color: #E6F1FF;
+      /* Lighter blue on focus */
+      opacity: 1;
+    }
+
+
+    .input-container input:focus {
+      box-shadow: 0 0 8px #007BFF;
+    }
+
+    /* Submit Button */
+    .input-container button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #00d4ff;
+      color: #0a192f;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    .input-container button:hover {
+      background-color: #e94560;
+      color: #ffffff;
+      box-shadow: 0px 4px 15px rgba(255, 0, 102, 0.6);
+    }
+
+    /* Message Display */
+    .message {
+      color: #FF3860;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 500px) {
+      .input-container {
+        flex-direction: column;
+      }
+
+      .input-container input,
+      .input-container button {
+        border-radius: 6px;
+        width: 100%;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="box">
+      <h3 class="title">Link with Phone Number</h3>
+      <p class="instructions">Enter your number with a country code.</p>
+
+      <div class="input-container">
+        <input type="number" id="phone-number" placeholder="+91 7025673121">
+        <button id="submit-button">Submit</button>
+      </div>
+
+      <p id="message" class="message" style="display: none;"></p>
+      <main id="pairing-result"></main>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script>
+    // Get elements
+    const phoneNumberInput = document.getElementById("phone-number");
+    const submitButton = document.getElementById("submit-button");
+    const messageDisplay = document.getElementById("message");
+    const pairingResult = document.getElementById("pairing-result");
+
+    // Function to validate phone number
+    function validatePhoneNumber(phone) {
+      const cleanedNumber = phone.replace(/[^0-9]/g, "");
+      return cleanedNumber.length >= 11;
+    }
+
+    // Function to copy code to clipboard
+    async function copyToClipboard() {
+      const copyElement = document.getElementById("copy-code");
+      const codeText = copyElement.innerText.replace("CODE: ", "");
+
+      await navigator.clipboard.writeText(codeText);
+      copyElement.innerText = "COPIED";
+      copyElement.style.color = "lightgreen";
+
+      setTimeout(() => {
+        copyElement.innerText = `CODE: ${codeText}`;
+        copyElement.style.color = "white";
+      }, 500);
+    }
+
+    // Submit button click event
+    submitButton.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const phone = phoneNumberInput.value;
+
+      // Validate phone number
+      if (!phone) {
+        messageDisplay.innerText = "Enter your WhatsApp number with a country code";
+        messageDisplay.style.display = "block";
+        return;
+      }
+
+      if (!validatePhoneNumber(phone)) {
+        messageDisplay.innerText = "Invalid number format";
+        messageDisplay.style.display = "block";
+        return;
+      }
+
+      // Format phone number
+      const cleanedPhone = phone.replace(/[^0-9]/g, "");
+      phoneNumberInput.type = "text";
+      phoneNumberInput.value = `+${cleanedPhone}`;
+      phoneNumberInput.style.color = "white";
+      phoneNumberInput.style.fontSize = "18px";
+
+      messageDisplay.innerText = "Please wait for some time...";
+      messageDisplay.style.display = "block";
+
+      // Fetch pairing code
+      try {
+        let response = await axios.get(`/code?number=${cleanedPhone}`);
+        let code = response.data.code || "Service Unavailable";
+
+        pairingResult.innerHTML = `
+                    <span id="copy-code" onclick="copyToClipboard()" 
+                    style="cursor:pointer; color:lightcoral; font-weight:bold;">
+                    CODE: <span style="color:white; font-weight:bold;">${code}</span>
+                    </span>
+                `;
+      } catch (error) {
+        pairingResult.innerHTML = `<p style="color:red;">Error fetching code. Please try again.</p>`;
+      }
+    });
+  </script>
+</body>
+
+</html>

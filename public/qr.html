@@ -1,0 +1,127 @@
+<html lang="en">
+
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1737874207490861"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHATSAPP BOT QR SCANER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&amp;display=swap" rel="stylesheet">
+    <title>QR</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Outfit", sans-serif;
+            background: #0A192F;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #content {
+            display: flex;
+            flex-direction: column;
+            width: 25rem;
+            text-align: center;
+            background-color: #112240;
+            /* Dark semi-transparent */
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0px 0px 5px #00d4ff;
+        }
+
+        #QR-content img {
+            border-radius: 10px;
+            width: 20rem;
+            border: 3px solid #00d4ff;
+            /* Neon border */
+        }
+
+        #title-container {
+            padding: 1rem 1rem 0 1rem;
+            color: #00d4ff;
+            /* Neon blue */
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        #description-container {
+            padding: 0 2rem;
+            color: #ffffff;
+            margin-bottom: 2rem;
+        }
+
+        progress {
+            width: 80%;
+            height: 8px;
+            border-radius: 5px;
+            background: #16213e;
+            overflow: hidden;
+        }
+
+        progress::-webkit-progress-bar {
+            background: #1a1a2e;
+            border-radius: 5px;
+        }
+
+        progress::-webkit-progress-value {
+            background: #00d4ff;
+            border-radius: 5px;
+        }
+
+        .reload-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #00d4ff;
+            color: #0a192f;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 10px rgba(0, 255, 255, 0.5);
+            cursor: pointer;
+        }
+
+        .reload-button:hover {
+            background-color: #e94560;
+            color: #ffffff;
+            box-shadow: 0px 4px 15px rgba(255, 0, 102, 0.6);
+        }
+    </style>
+    <script>
+        var timeleft = 30;
+        var downloadTimer = setInterval(function () {
+            if (timeleft <= 0) {
+                clearInterval(downloadTimer);
+                document.getElementById("progressBar").remove();
+                document.getElementById("main").innerHTML = "QR Expired! Please reload";
+                document.getElementById("legend").innerHTML = ""
+            }
+            document.getElementById("progressBar").value = 30 - timeleft;
+            timeleft -= 1;
+        }, 1000);
+    </script>
+</head>
+
+<body>
+    <div class="bg">
+        <div id="content">
+            <div id="QR-content">
+                <img id="qr-image" src="/qr-code" alt="QR CODE">
+            </div>
+            <div id="title-container">
+                <h2 id="main">REVENANT-BOT QR</h2>
+                <p class="legend" id="legend">Scan The QR Code</p>
+            </div>
+            <div id="description-container">
+                <p id="semi" class="legend"></p>
+                <progress value="0" max="30" id="progressBar"></progress>
+            </div>
+            <a href="javascript:history.go(0)" class="reload-button">Reload Page</a>
+        </div>
+    </div>
+</body>
+
+</html>

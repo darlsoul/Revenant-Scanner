@@ -1,0 +1,122 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #0A192F;
+    font-family: 'Roboto', 'Segoe UI', sans-serif;
+    color: #E0E7FF;
+    text-align: center;
+}
+
+header {
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #00D4FF;
+}
+
+p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    color: #A8B2D1;
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 20px auto;
+    /* Center horizontally */
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    width: 50%;
+    /* Reduce width slightly */
+    max-width: 600px;
+}
+
+.features ul {
+    width: 100%;
+    /* Ensure the list takes full width */
+    padding: 0;
+    list-style: none;
+}
+
+
+.features h2 {
+    color: #00D4FF;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.features li {
+    font-size: 1.1rem;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+.buttons {
+    margin: 20px 0;
+}
+
+.btn {
+    --color: #00D4FF;
+    --bg-color: #112240;
+    width: 200px;
+    padding: 12px 20px;
+    background-color: var(--bg-color);
+    border-radius: 6px;
+    border: 2px solid var(--color);
+    color: var(--color);
+    font-size: 17px;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    margin: 10px;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease-in-out;
+    z-index: -1;
+}
+
+.btn:hover::before {
+    transform: scaleX(1);
+}
+
+.btn:hover {
+    color: #0A192F;
+    background-color: var(--color);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #A8B2D1;
+}
