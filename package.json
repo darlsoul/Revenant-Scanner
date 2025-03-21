@@ -1,0 +1,24 @@
+{
+    "description": "qr",
+    "main": "./index.js",
+    "engines": {
+        "npm": ">=9.7.2",
+        "node": ">=20.0.0"
+    },
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "@whiskeysockets/baileys": "^6.5.0",
+        "awesome-phonenumber": "^2.64.0",
+        "axios": "^1.8.3",
+        "body-parser": "^1.20.1",
+        "cors": "^2.8.5",
+        "express": "^4.18.1",
+        "mongodb": "^6.15.0",
+        "path": "^0.12.7",
+        "phone": "3.1.30",
+        "pino": "^8.1.0",
+        "qrcode": "^1.5.3"
+    }
+}
